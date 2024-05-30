@@ -1,2 +1,3 @@
-mod history;
-mod users;
+pub mod history;
+pub mod users;
+pub mod client;

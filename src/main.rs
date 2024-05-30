@@ -10,7 +10,7 @@ fn main() {
 
     let encrypt: EncryptionData = core::encryption::createInstance();
     let encryptedData = core::encryption::encryptData(encrypt, "test".to_string());
-
+    server::client::connectToServer();
 
 
 }
