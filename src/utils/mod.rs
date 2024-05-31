@@ -5,19 +5,19 @@ pub mod Logs {
     use std::task::Context;
     use colored::Colorize;
 
-    #[derive(Clone, Copy)]
+    #[derive(Clone)]
     pub struct UtilsData {
         context: Option<&'static str>,
-        message: &'static str,
+        message: String,
         debug_status: Option<bool>
     }
 
     #[warn(non_snake_case)]
-    pub fn initLog(ctx: Option<&'static str>, msg: &'static str, debug: Option<bool>) -> UtilsData {
+    pub fn initLog(ctx: Option<&'static str>, msg: String, debug: Option<bool>) -> UtilsData {
 
         let mut utils: UtilsData = UtilsData {
             context: None,
-            message: "",
+            message: "".to_string(),
             debug_status: None,
         };
 
@@ -84,7 +84,7 @@ pub mod Logs {
         if utils_data.context != Option::from("") {
             cryptoError("Impossible to set a custom log status, use `clog` function.");
         } else {
-            println!("{}{}{}{}", "[", "WARNING".yellow(), "] -> ", utils_data.message);
+            println!("{}{}{}{}", "[", "WARNING".bright_yellow(), "] -> ", utils_data.message);
         }
     }
 

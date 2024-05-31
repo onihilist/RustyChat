@@ -19,7 +19,7 @@ pub fn createInstance() -> EncryptionData {
 
 pub fn encryptData(obj: EncryptionData, data: String) -> Vec<u8> {
     let datatrim = data.trim_end().to_string();
-    let mut logs: UtilsData = utils::Logs::initLog(None, "Message encrypté avec succès !", None);
+    let mut logs: UtilsData = utils::Logs::initLog(None, "Message encrypté avec succès !".to_string(), None);
     utils::Logs::success(logs);
     return datatrim.into_bytes();
 }
