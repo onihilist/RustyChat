@@ -1,6 +1,12 @@
 use crate::utils;
 use crate::utils::Logs::UtilsData;
 
+/*
+* For this file i didn't give the code for obvious reason...
+* But you can make your own encryption method for you and your friends !
+* Good luck keep learning and stay rusty friends !
+*/
+
 pub struct EncryptionData{
     pub timestamp: u32,
     pub strToEncrypt: &'static str,
