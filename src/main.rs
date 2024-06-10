@@ -1,7 +1,7 @@
-#![feature(concat_bytes)]
 
 use std::io;
 use std::io::{Read, Write};
+use colored::Colorize;
 use crate::core::encryption::{encryptData, EncryptionData};
 use server::protocols::{protocolParser, protocolData};
 use crate::server::protocols::createProtocol;
@@ -45,12 +45,30 @@ fn main() {
 
         if let Ok(bytes_read) = stream.read(&mut buffer) {
             if bytes_read > 0 {
-                if String::from_utf8_lossy(&buffer[..bytes_read]) == "Unknown packet"{
-                    let logs = utils::Logs::initLog(None, "Unknown packet".to_string(), None);
-                    utils::Logs::warning(logs);
-                } else if String::from_utf8_lossy(&buffer[..bytes_read]).starts_with("INIT_CONNECTION") {
-                    let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                    utils::Logs::debug(logs);
+                match String::from_utf8_lossy(&buffer[..bytes_read]) {
+                    std::borrow::Cow::Borrowed("INIT_CONNECTION") => {
+                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                        utils::Logs::debug(logs);
+                    },
+                    std::borrow::Cow::Borrowed("REGISTER") => {
+                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                        utils::Logs::debug(logs);
+                    },
+                    std::borrow::Cow::Borrowed("LOGIN") => {
+                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                        utils::Logs::debug(logs);
+                    },
+                    std::borrow::Cow::Borrowed("SEND") => {
+                        let logs = utils::Logs::initLog(None, format!("SEND : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                        utils::Logs::debug(logs);
+                    },
+                    std::borrow::Cow::Borrowed("RECEIVE") => {
+                        let logs = utils::Logs::initLog(None, format!("RECEIVE : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                        utils::Logs::debug(logs);
+                    },
+                    _ => {
+                        utils::Logs::initLog(None, format!("{}{}{}", "[", "ERROR".red(), "] -> This protocol action doesn't exist"), None);
+                    }
                 }
             }
         }

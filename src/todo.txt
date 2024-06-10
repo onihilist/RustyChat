@@ -1,4 +1,5 @@
 1. passez les protocols dans un switch case au lieu de "if" à la con DES DEUX COTES
 2. utiliser les utils pour les response des deux côtés
-3. Thearding pour le client handler
+3. Thearding pour le client handler (permet de recevoir autant de packet provenant d'autri/server tout en renvoyant qqln après pourquoi pas)
 4. PROBLEME DE RECEPTION DU SERVEUR APRES UNE REQUEST
+5. Variabilisé la taille des requests
