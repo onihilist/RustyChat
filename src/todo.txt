@@ -3,3 +3,5 @@
 3. Thearding pour le client handler (permet de recevoir autant de packet provenant d'autri/server tout en renvoyant qqln après pourquoi pas)
 4. PROBLEME DE RECEPTION DU SERVEUR APRES UNE REQUEST
 5. Variabilisé la taille des requests
+6. Ecrire toutes les logs dans un fichier pour avoir de la place dans le terminal
+7. Fix dans main.rs du match  (lignes 46-78) et a l'avenir déplacer ça dans un autre module

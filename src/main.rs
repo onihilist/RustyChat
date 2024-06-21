@@ -45,24 +45,26 @@ fn main() {
 
         if let Ok(bytes_read) = stream.read(&mut buffer) {
             if bytes_read > 0 {
+                // let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
+                // utils::Logs::debug(logs);
                 match String::from_utf8_lossy(&buffer[..bytes_read]) {
-                    std::borrow::Cow::Borrowed("INIT_CONNECTION") => {
+                    std::borrow::Cow::Borrowed(initConnection) if initConnection.starts_with("INIT_CONNECTION") => {
                         let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
                         utils::Logs::debug(logs);
                     },
-                    std::borrow::Cow::Borrowed("REGISTER") => {
+                    std::borrow::Cow::Borrowed(register) if register.starts_with("REGISTER") => {
                         let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
                         utils::Logs::debug(logs);
                     },
-                    std::borrow::Cow::Borrowed("LOGIN") => {
+                    std::borrow::Cow::Borrowed(login) if login.starts_with("LOGIN") => {
                         let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
                         utils::Logs::debug(logs);
                     },
-                    std::borrow::Cow::Borrowed("SEND") => {
+                    std::borrow::Cow::Borrowed(send) if send.starts_with("SEND") => {
                         let logs = utils::Logs::initLog(None, format!("SEND : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
                         utils::Logs::debug(logs);
                     },
-                    std::borrow::Cow::Borrowed("RECEIVE") => {
+                    std::borrow::Cow::Borrowed(receive) if receive.starts_with("RECEIVE") => {
                         let logs = utils::Logs::initLog(None, format!("RECEIVE : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
                         utils::Logs::debug(logs);
                     },
