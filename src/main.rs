@@ -4,13 +4,14 @@ use std::io::{Read, Write};
 use colored::Colorize;
 use crate::core::encryption::{encryptData, EncryptionData};
 use server::protocols::{protocolParser, protocolData};
-use crate::server::protocols::createProtocol;
+use crate::server::protocols::{checkProtocol, createProtocol};
 
 mod utils;
 mod core;
 mod server;
 
 fn main() {
+
     let encrypt: EncryptionData = core::encryption::createInstance();
     let encrypted_data = core::encryption::encryptData(encrypt, "test".to_string());
 
@@ -28,7 +29,7 @@ fn main() {
     while connected {
         let mut buffer = [0; 512];
 
-        println!(" ");
+        //println!(" ");
         print!("Protocol to send: ");
         io::stdout().flush().unwrap();
         let mut input = String::new();
@@ -45,33 +46,10 @@ fn main() {
 
         if let Ok(bytes_read) = stream.read(&mut buffer) {
             if bytes_read > 0 {
-                // let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                // utils::Logs::debug(logs);
-                match String::from_utf8_lossy(&buffer[..bytes_read]) {
-                    std::borrow::Cow::Borrowed(initConnection) if initConnection.starts_with("INIT_CONNECTION") => {
-                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                        utils::Logs::debug(logs);
-                    },
-                    std::borrow::Cow::Borrowed(register) if register.starts_with("REGISTER") => {
-                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                        utils::Logs::debug(logs);
-                    },
-                    std::borrow::Cow::Borrowed(login) if login.starts_with("LOGIN") => {
-                        let logs = utils::Logs::initLog(None, format!("{}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                        utils::Logs::debug(logs);
-                    },
-                    std::borrow::Cow::Borrowed(send) if send.starts_with("SEND") => {
-                        let logs = utils::Logs::initLog(None, format!("SEND : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                        utils::Logs::debug(logs);
-                    },
-                    std::borrow::Cow::Borrowed(receive) if receive.starts_with("RECEIVE") => {
-                        let logs = utils::Logs::initLog(None, format!("RECEIVE : {}", String::from_utf8_lossy(&buffer[..bytes_read])), None);
-                        utils::Logs::debug(logs);
-                    },
-                    _ => {
-                        utils::Logs::initLog(None, format!("{}{}{}", "[", "ERROR".red(), "] -> This protocol action doesn't exist"), None);
-                    }
-                }
+
+                let response: String = format!("{}", String::from_utf8_lossy(&buffer[..bytes_read]));
+                let responseProtocol: protocolData = createProtocol(response);
+                checkProtocol(responseProtocol);
             }
         }
     }

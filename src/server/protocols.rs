@@ -1,12 +1,24 @@
+
+use lazy_static::lazy_static;
+use regex::Regex;
+
 use colored::Colorize;
 use crate::utils;
 use crate::utils::Logs::UtilsData;
 
+pub const PROTOCOL_DATA_SEP: &str = "::";
+pub const PROTOCOL_NOT_EXIST: &str = "PROTOCOL_NOT_EXIST";
+pub const INIT_CONNECTION: &str = "INIT_CONNECTION";
+pub const REGISTER: &str =  "REGISTER";
+pub const LOGIN: &str = "LOGIN";
+pub const SEND: &str = "SEND";
+pub const RECEIVE: &str = "RECEIVE";
+
 pub struct protocolData {
-    protocol: String,
-    sender: String,
-    receiver: String,
-    data: String
+    pub protocol: String,
+    pub sender: String,
+    pub receiver: String,
+    pub data: String
 }
 
 impl protocolData {
@@ -20,17 +32,70 @@ impl protocolData {
     }
 }
 
-pub fn checkProtocol(protocol_data: protocolData) -> String {
+pub fn getRegex() -> Regex {
+    Regex::new(r"^INIT_CONNECTION::(.*?)::(.*?)::(.*?)$
+                    |^REGISTER::(.*?)::(.*?)::(.*?)$
+                    |^LOGIN::(.*?)::(.*?)::(.*?)$
+                    |^SEND::(.*?)::(.*?)::(.*?)$
+                    |^RECEIVE::(.*?)::(.*?)::(.*?)$").unwrap()
+}
 
-    let logs: UtilsData = utils::Logs::initLog(None, "This protocol action doesn't exist".to_string(), None);
+pub fn checkProtocol(protocol_data: protocolData) {
 
     match protocol_data.protocol.as_str() {
-        "INIT_CONNECTION"=>return "init_connection".to_string(),
-        "REGISTER"=>return "register".to_string(),
-        "LOGIN"=>return "connect".to_string(),
-        "SEND"   =>return "send".to_string(),
-        "RECEIVE"=>return "receive".to_string(),
-        _=>return format!("{}{}{}", "[", "ERROR".red(), "] -> This protocol action doesn't exist")
+        INIT_CONNECTION => {
+            if protocol_data.data == "CONNECTION OK".to_string() {
+                let logs: UtilsData = utils::Logs::initLog(None, "Successfully connected to the network.".to_string(), None);
+                utils::Logs::success(logs);
+            } else {
+                let logs: UtilsData = utils::Logs::initLog(None, "Impossible to connect to the network.".to_string(), None);
+                utils::Logs::error(logs);
+            }
+        }
+        REGISTER => {
+            if protocol_data.data == "REGISTER OK".to_string() {
+                let logs: UtilsData = utils::Logs::initLog(None, "Account successfully created.".to_string(), None);
+                utils::Logs::success(logs);
+            } else {
+                let logs: UtilsData = utils::Logs::initLog(None, "Impossible to create an account.".to_string(), None);
+                utils::Logs::error(logs);
+            }
+        }
+        LOGIN => {
+            if protocol_data.data == "LOGIN OK".to_string() {
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Welcome back {} !", protocol_data.sender), None);
+                utils::Logs::success(logs);
+            } else {
+                let logs: UtilsData = utils::Logs::initLog(None, "Wrong password or login !".to_string(), None);
+                utils::Logs::error(logs);
+            }
+        }
+        SEND => {
+            if protocol_data.data == "SEND OK".to_string() {
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Message successfully sent to {}.", protocol_data.receiver), None);
+                utils::Logs::success(logs);
+            } else {
+                let logs: UtilsData = utils::Logs::initLog(None, "Wrong password or login !".to_string(), None);
+                utils::Logs::error(logs);
+            }
+        }
+        RECEIVE => {
+            if protocol_data.data == "RECEIVE OK".to_string() {
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Message from {} : {}", protocol_data.sender, protocol_data.data), None);
+                utils::Logs::success(logs);
+            } else {
+                let logs: UtilsData = utils::Logs::initLog(None, "You receive a message but there is an error.".to_string(), None);
+                utils::Logs::error(logs);
+            }
+        }
+        PROTOCOL_NOT_EXIST => {
+            let logs: UtilsData = utils::Logs::initLog(None, "Server don't know this protocol.".to_string(), None);
+            utils::Logs::warning(logs);
+        }
+        _ => {
+            let logs: UtilsData = utils::Logs::initLog(None, format!("You receive an unknow protocol... ({})", protocol_data.protocol), None);
+            utils::Logs::error(logs);
+        }
     }
 
 }
