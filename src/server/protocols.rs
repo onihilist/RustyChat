@@ -40,6 +40,16 @@ pub fn getRegex() -> Regex {
                     |^RECEIVE::(.*?)::(.*?)::(.*?)$").unwrap()
 }
 
+pub fn initProtocolData(protocol: String, sender: String, receiver: String, data: String) -> protocolData {
+    let data = protocolData {
+        protocol,
+        sender,
+        receiver,
+        data
+    };
+    return data;
+}
+
 pub fn checkProtocol(protocol_data: protocolData) {
 
     match protocol_data.protocol.as_str() {
