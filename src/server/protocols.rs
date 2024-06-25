@@ -1,4 +1,4 @@
-
+use std::fmt::format;
 use lazy_static::lazy_static;
 use regex::Regex;
 
@@ -58,7 +58,7 @@ pub fn checkProtocol(protocol_data: protocolData) {
                 let logs: UtilsData = utils::Logs::initLog(None, "Successfully connected to the network.".to_string(), None);
                 utils::Logs::success(logs);
             } else {
-                let logs: UtilsData = utils::Logs::initLog(None, "Impossible to connect to the network.".to_string(), None);
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Impossible to connect to the network. ({})", protocol_data.data), None);
                 utils::Logs::error(logs);
             }
         }
@@ -73,7 +73,7 @@ pub fn checkProtocol(protocol_data: protocolData) {
         }
         LOGIN => {
             if protocol_data.data == "LOGIN OK".to_string() {
-                let logs: UtilsData = utils::Logs::initLog(None, format!("Welcome back {} !", protocol_data.sender), None);
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Welcome back {} !", protocol_data.receiver), None);
                 utils::Logs::success(logs);
             } else {
                 let logs: UtilsData = utils::Logs::initLog(None, "Wrong password or login !".to_string(), None);
@@ -82,7 +82,7 @@ pub fn checkProtocol(protocol_data: protocolData) {
         }
         SEND => {
             if protocol_data.data == "SEND OK".to_string() {
-                let logs: UtilsData = utils::Logs::initLog(None, format!("Message successfully sent to {}.", protocol_data.receiver), None);
+                let logs: UtilsData = utils::Logs::initLog(None, format!("Message successfully sent to {}.", protocol_data.sender), None);
                 utils::Logs::success(logs);
             } else {
                 let logs: UtilsData = utils::Logs::initLog(None, "Wrong password or login !".to_string(), None);
@@ -99,7 +99,7 @@ pub fn checkProtocol(protocol_data: protocolData) {
             }
         }
         PROTOCOL_NOT_EXIST => {
-            let logs: UtilsData = utils::Logs::initLog(None, "Server don't know this protocol.".to_string(), None);
+            let logs: UtilsData = utils::Logs::initLog(None, format!("Server don't know this protocol. ({})", protocol_data.protocol ), None);
             utils::Logs::warning(logs);
         }
         _ => {

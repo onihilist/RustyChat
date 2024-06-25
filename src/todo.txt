@@ -3,7 +3,7 @@
 3. Thearding pour le client handler (permet de recevoir autant de packet provenant d'autri/server tout en renvoyant qqln après pourquoi pas)
 5. Variabilisé la taille des requests (faire des split avec # dans data)
 6. Ecrire toutes les logs dans un fichier pour avoir de la place dans le terminal (faire a la fin)
-8. Transformer a la reception les bytes du server en "responseData"
+8. Transformer a la reception les bytes du server en "responseData" et lire les valeurs TS et UTC
 
 ========== IN PROGRESS ==========
 1. passez les protocols dans un switch case au lieu de "if" à la con DES DEUX COTES
