@@ -99,11 +99,11 @@ pub fn checkProtocol(protocol_data: protocolData) {
             }
         }
         PROTOCOL_NOT_EXIST => {
-            let logs: UtilsData = utils::Logs::initLog(None, format!("Server don't know this protocol. ({})", protocol_data.protocol ), None);
+            let logs: UtilsData = utils::Logs::initLog(None, format!("Server doesn't know this protocol. ({})", protocol_data.protocol ), None);
             utils::Logs::warning(logs);
         }
         _ => {
-            let logs: UtilsData = utils::Logs::initLog(None, format!("You receive an unknow protocol... ({})", protocol_data.protocol), None);
+            let logs: UtilsData = utils::Logs::initLog(None, format!("You receive an unknown protocol... ({})", protocol_data.protocol), None);
             utils::Logs::error(logs);
         }
     }
