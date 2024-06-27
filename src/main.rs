@@ -3,7 +3,7 @@ use std::io;
 use std::io::{Read, Write};
 use colored::Colorize;
 use crate::core::encryption::{encryptData, EncryptionData};
-use server::protocols::{protocolParser, protocolData};
+use server::protocols::{protocolData};
 use crate::server::protocols::{checkProtocol, createProtocol};
 
 mod utils;
@@ -11,9 +11,6 @@ mod core;
 mod server;
 
 fn main() {
-
-    let encrypt: EncryptionData = core::encryption::createInstance();
-    let encrypted_data = core::encryption::encryptData(encrypt, "test".to_string());
 
     let mut stream = match server::client::connectToServer() {
         Ok(s) => s,

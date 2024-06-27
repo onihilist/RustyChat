@@ -1,11 +1,11 @@
 use std::io;
-use std::io::Read;
-use std::net::{TcpStream, SocketAddr, IpAddr, Ipv4Addr};
+use std::net::{TcpStream,
+               SocketAddr,
+               IpAddr,
+               Ipv4Addr
+};
 use std::time::Duration;
-use crate::server::protocols::protocolData;
-use crate::{utils, write_to_server};
-use crate::utils::Logs::UtilsData;
-use crate::server;
+use crate::{utils};
 
 pub struct clientData {
     uuid: &'static str,
