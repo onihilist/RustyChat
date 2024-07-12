@@ -1,12 +1,15 @@
 [package]
-name = "RustyChatLib"
+name = "RustyProject"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[lib]
-name = "RustyChatLib"
-crate-type = ["staticlib"]
-
 [dependencies]
+colored = "2.1.0"
+regex = "1.10.5"
+lazy_static = "1.4.0"
+chrono = "0.4.38"
+hardware-id = "0.3.0"
+reqwest = "0.12.5"
+tokio = "1.38.0"
