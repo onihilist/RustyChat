@@ -5,13 +5,14 @@ use std::os::raw::c_int;
 use colored::Colorize;
 use server::protocols::{protocolData};
 use crate::server::client;
+use std::env;
 
 mod utils;
 mod core;
 mod server;
 
-#[no_mangle]
-pub extern "C" fn main() {
+fn main() {
+    env::set_var("RUST_BACKTRACE", "0");
     client::handler();
 }
 
