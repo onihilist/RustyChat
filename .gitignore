@@ -1,11 +1,6 @@
 /target
 /.idea
-<<<<<<< HEAD
 /.vscode
 /src/core/encryption.rs
 src/gui/build
 Cargo.lock
-=======
-src/gui/build
-Cargo.lock
->>>>>>> 3742ebbbf22e706eaa7a747a40652c3b39e70956
