@@ -2,4 +2,5 @@
 /.idea
 /.vscode
 /src/core/encryption.rs
+src/gui/build
 Cargo.lock
